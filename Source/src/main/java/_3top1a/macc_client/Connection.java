@@ -56,7 +56,7 @@ public class Connection {
 					}
 		    	    catch (Exception e) {}
 		    	  }
-		    	}, 0, 33, TimeUnit.MILLISECONDS);
+		    	}, 0, (1000/15), TimeUnit.MILLISECONDS);
 			}
 		} 
 	}
@@ -80,14 +80,13 @@ public class Connection {
         String hp =  formatter.format(Minecraft.getMinecraft().player.getHealth());
         String maxhp = formatter.format(Minecraft.getMinecraft().player.getMaxHealth());
         
-        String name = Minecraft.getMinecraft().player.getName();
-        
+        String name = Minecraft.getMinecraft().player.getName();        
+              
         int dimension = Minecraft.getMinecraft().player.dimension;
         
         int expLevel = Minecraft.getMinecraft().player.experienceLevel;
         
-        
-        dOut.writeUTF(" " + x + " " + y + " " + z + " " + hp + " " + maxhp + " " + name + " " + dimension + " " + expLevel + " ");
+		dOut.writeUTF(" " + x + " " + y + " " + z + " " + hp + " " + maxhp + " " + name + " " + dimension + " " + expLevel + " ");
         dOut.flush();
     }
 }
