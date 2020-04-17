@@ -1,0 +1,16 @@
+[
+{
+  "modid": "macc-client",
+  "name": "M.A.C.C. Client",
+  "description": "Minecraft Autonomous Client Control",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["3top1a"],
+  "credits": "Me",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
