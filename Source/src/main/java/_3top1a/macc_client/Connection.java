@@ -42,7 +42,7 @@ public class Connection {
 							ReceiveData();
 						} catch (Exception e) {}
 					}
-				}, 0, (1000 / 15), TimeUnit.MILLISECONDS);
+				}, 0, (1000 / 10), TimeUnit.MILLISECONDS);
 			}
 		}
 	}
