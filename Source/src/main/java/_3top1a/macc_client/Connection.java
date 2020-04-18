@@ -13,6 +13,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class Connection {
 	static ServerSocket ss = null;
@@ -84,6 +85,22 @@ public class Connection {
 		if ((data = in.readLine()) != null) 
 		{
 			System.out.println("\r\nMessage " + data);
+			
+			if(data.startsWith("exit"))
+			{
+				//TODO
+				//Minecraft.getMinecraft().player.
+			}
+			
+			if(data.startsWith("goto"))
+			{
+				//TODO
+			}
+			
+			if(data.startsWith("IHAVENOIDEA"))
+			{
+				//NOT TODO
+			}
 		}
 
 	}
