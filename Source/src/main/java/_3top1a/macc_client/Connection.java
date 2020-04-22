@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.DecimalFormat;
@@ -11,51 +12,34 @@ import java.text.NumberFormat;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class Connection {
 	static ServerSocket ss = null;
 	static Socket socket = null;
 	static Thread th = null;
 	static NumberFormat formatter = null;
+	
+	public static void run() throws Exception {
+		ss = new ServerSocket(6667);
+		
+		while (true) {
+			socket = ss.accept();
 
-	public static class MyClass implements Runnable {
-		@Override
-		public void run() {
-			try {
-				ss = new ServerSocket(6667);
-			} catch (IOException e1) {}
-
-			while (true) {
-
-				try {
-					socket = ss.accept();
-				} catch (IOException e1) {}
-
-				ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
-				exec.scheduleAtFixedRate(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							SendData();
-							ReceiveData();
-						} catch (Exception e) {}
-					}
-				}, 0, (1000 / 10), TimeUnit.MILLISECONDS);
-			}
+			do {
+				ReceiveData();
+				SendData();
+			} 
+			while(!ss.isClosed());
 		}
 	}
 
 	public static void Connect() throws Exception {
 		formatter = new DecimalFormat("#0.0");
-
-		//th = new Thread(new MyClass());
-		//th.start();
 		
-		MyClass mc = new MyClass();
-		mc.run();
+		run();
 	}
 
 	public static void SendData() throws Exception, IOException {
@@ -81,27 +65,28 @@ public class Connection {
 
 	public static void ReceiveData() throws Exception {
 		BufferedReader in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
-		String data;
-		if ((data = in.readLine()) != null) 
+		String Data;
+		if ((Data = in.readLine().toString()) != null) 
 		{
-			System.out.println("\r\nMessage " + data);
+			System.out.println("\r\nMessage" + Data);
 			
-			if(data.startsWith("exit"))
-			{
-				//TODO
-				//Minecraft.getMinecraft().player.
-			}
+			PrintWriter writer = new PrintWriter("DEBUG.txt", "UTF-8");
+			writer.println(Data);
+			writer.close();
 			
-			if(data.startsWith("goto"))
-			{
-				//TODO
-			}
 			
-			if(data.startsWith("IHAVENOIDEA"))
+			if(regex("goto.*", Data))
 			{
-				//NOT TODO
+				System.out.println("GOING TO FUCK MYSELF");
+				
+				Minecraft.getMinecraft().player.sendChatMessage(".b goto 0 0 0");
 			}
 		}
 
+	}
+	
+	public static boolean regex(String re, String to)
+	{
+		return Pattern.compile(re).matcher(to).matches();
 	}
 }
