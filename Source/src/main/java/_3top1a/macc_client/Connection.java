@@ -102,6 +102,7 @@ public class Connection {
 			}
 
 			// Commands starting with this prefix are for Impact client / Baritone
+			//e.g. ". toggle freecam"
 			if (data.startsWith(".")) {
 				Minecraft.getMinecraft().player.sendChatMessage(data);
 			}
