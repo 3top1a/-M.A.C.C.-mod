@@ -82,7 +82,6 @@ public class Connection {
 
 			int expLevel = Minecraft.getMinecraft().player.experienceLevel;
 
-			dOut.writeUTF(" " + x + " " + y + " " + z + " " + hp + " " + maxhp + " " + name + " " + dimension + " "
 			dOut.writeUTF(" 100 " + x + " " + y + " " + z + " " + hp + " " + maxhp + " " + name + " " + dimension + " "
 					+ expLevel + " ");
 		}
