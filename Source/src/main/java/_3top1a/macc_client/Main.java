@@ -15,7 +15,7 @@ public class Main {
 	@EventHandler
 	public static void Init(FMLPreInitializationEvent event) throws Exception {
 		Connection.Connect();
-		
+
 	}
 
 	@SidedProxy(clientSide = ModSettings.CLIENT_PROXY_CLASS, serverSide = ModSettings.COMMON_PROXY_CLASS)

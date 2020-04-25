@@ -13,12 +13,14 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.profiler.Profiler;
 
 public class Connection {
 	static ServerSocket ss = null;
 	static Socket socket = null;
 	static Thread th = null;
 	static NumberFormat formatter = null;
+	static Profiler p = Minecraft.getMinecraft().mcProfiler;
 
 	public static class MyClass implements Runnable {
 		@Override
@@ -58,7 +60,7 @@ public class Connection {
 	}
 
 	public static void SendData() throws Exception, IOException {
-		Minecraft.getMinecraft().mcProfiler.startSection("Output");
+		p.startSection("Output");
 
 		ObjectOutputStream dOut = new ObjectOutputStream(socket.getOutputStream());
 
@@ -81,27 +83,27 @@ public class Connection {
 			int expLevel = Minecraft.getMinecraft().player.experienceLevel;
 
 			dOut.writeUTF(" " + x + " " + y + " " + z + " " + hp + " " + maxhp + " " + name + " " + dimension + " "
+			dOut.writeUTF(" 100 " + x + " " + y + " " + z + " " + hp + " " + maxhp + " " + name + " " + dimension + " "
 					+ expLevel + " ");
 		}
 		dOut.flush();
 
-		Minecraft.getMinecraft().mcProfiler.endSection();
+		p.endSection();
 	}
 
 	public static void ReceiveData() throws Exception {
-		Minecraft.getMinecraft().mcProfiler.startSection("Input");
+		p.startSection("Input");
 
 		BufferedReader in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
 		String data;
 		if ((data = in.readLine()) != null) {
-			System.out.println("\r\nMessage " + data);
-
 			if (data.startsWith("exit")) {
 				// TODO
 				// Minecraft.getMinecraft().player.
 			}
 
-			if (data.startsWith(".b")) {
+			// Commands starting with this prefix are for Impact client / Baritone
+			if (data.startsWith(".")) {
 				Minecraft.getMinecraft().player.sendChatMessage(data);
 			}
 
@@ -110,6 +112,6 @@ public class Connection {
 			}
 		}
 
-		Minecraft.getMinecraft().mcProfiler.endSection();
+		p.endSection();
 	}
 }
