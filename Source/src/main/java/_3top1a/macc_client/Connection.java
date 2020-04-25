@@ -13,7 +13,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class Connection {
 	static ServerSocket ss = null;
@@ -26,13 +25,15 @@ public class Connection {
 		public void run() {
 			try {
 				ss = new ServerSocket(6667);
-			} catch (IOException e1) {}
+			} catch (IOException e1) {
+			}
 
 			while (true) {
 
 				try {
 					socket = ss.accept();
-				} catch (IOException e1) {}
+				} catch (IOException e1) {
+				}
 
 				ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
 				exec.scheduleAtFixedRate(new Runnable() {
@@ -41,7 +42,8 @@ public class Connection {
 						try {
 							SendData();
 							ReceiveData();
-						} catch (Exception e) {}
+						} catch (Exception e) {
+						}
 					}
 				}, 0, (1000 / 10), TimeUnit.MILLISECONDS);
 			}
@@ -56,61 +58,58 @@ public class Connection {
 	}
 
 	public static void SendData() throws Exception, IOException {
+		Minecraft.getMinecraft().mcProfiler.startSection("Output");
+
 		ObjectOutputStream dOut = new ObjectOutputStream(socket.getOutputStream());
-		
-		if(Minecraft.getMinecraft().isGamePaused() && Minecraft.getMinecraft().player == null)
-		{
-			//We are in the main menu
-			
+
+		if (Minecraft.getMinecraft().isGamePaused() && Minecraft.getMinecraft().player == null) {
+			// We are in the main menu
+
 			dOut.writeUTF(" 101 ");
-		}		
-		else 
-		{
+		} else {
 			String x = formatter.format(Minecraft.getMinecraft().player.posX);
 			String y = formatter.format(Minecraft.getMinecraft().player.posY);
 			String z = formatter.format(Minecraft.getMinecraft().player.posZ);
-	
+
 			String hp = formatter.format(Minecraft.getMinecraft().player.getHealth());
 			String maxhp = formatter.format(Minecraft.getMinecraft().player.getMaxHealth());
-	
+
 			String name = Minecraft.getMinecraft().player.getName();
-	
+
 			int dimension = Minecraft.getMinecraft().player.dimension;
-	
+
 			int expLevel = Minecraft.getMinecraft().player.experienceLevel;
-	
+
 			dOut.writeUTF(" " + x + " " + y + " " + z + " " + hp + " " + maxhp + " " + name + " " + dimension + " "
 					+ expLevel + " ");
 		}
 		dOut.flush();
+
+		Minecraft.getMinecraft().mcProfiler.endSection();
 	}
 
 	public static void ReceiveData() throws Exception {
+		Minecraft.getMinecraft().mcProfiler.startSection("Input");
+
 		BufferedReader in = new BufferedReader(new InputStreamReader((socket.getInputStream())));
 		String data;
-		if ((data = in.readLine()) != null) 
-		{
+		if ((data = in.readLine()) != null) {
 			System.out.println("\r\nMessage " + data);
-			
-			if(data.startsWith("exit"))
-			{
-				//TODO
-				//Minecraft.getMinecraft().player.
-			}
-			 
-			if(data.startsWith("goto"))
-			{
-				//TODO
-				System.out.println("GOING TO FUCK MYSELF");
 
-				Minecraft.getMinecraft().player.sendChatMessage(".b goto 0 0 0");
+			if (data.startsWith("exit")) {
+				// TODO
+				// Minecraft.getMinecraft().player.
 			}
-			
-			if(data.startsWith("IHAVENOIDEA"))
-			{
-				//NOT TODO
+
+			if (data.startsWith(".b")) {
+				Minecraft.getMinecraft().player.sendChatMessage(data);
+			}
+
+			if (data.startsWith("say")) {
+				// TODO
 			}
 		}
 
+		Minecraft.getMinecraft().mcProfiler.endSection();
 	}
 }
