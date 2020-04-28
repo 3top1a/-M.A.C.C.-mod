@@ -47,7 +47,7 @@ public class Connection {
 						} catch (Exception e) {
 						}
 					}
-				}, 0, (1000 / 10), TimeUnit.MILLISECONDS);
+				}, 0, 300, TimeUnit.MILLISECONDS);
 			}
 		}
 	}
