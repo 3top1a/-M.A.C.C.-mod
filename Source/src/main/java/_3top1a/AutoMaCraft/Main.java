@@ -14,7 +14,7 @@ public class Main {
 
 	@EventHandler
 	public static void Init(FMLPreInitializationEvent event) throws Exception {
-		Connection.Connect();
+		Connection.Start();
 
 	}
 
