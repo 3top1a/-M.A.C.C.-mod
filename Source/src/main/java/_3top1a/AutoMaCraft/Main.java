@@ -1,4 +1,4 @@
-package _3top1a.macc_client;
+package _3top1a.AutoMaCraft;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
