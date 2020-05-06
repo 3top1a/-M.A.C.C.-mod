@@ -1,6 +1,9 @@
 package _3top1a.AutoMaCraft;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -31,11 +34,11 @@ public class MultiThreadedServer implements Runnable{
 		    System.out.println("Connection successful.");
 	
 		    PrintWriter out = null;
-		    Scanner in = null;
+		    BufferedReader in = null;
 	
 		    try{
 		        out = new PrintWriter(sock.getOutputStream(),true);
-		        in = new Scanner(sock.getInputStream());
+		        in = new BufferedReader(new InputStreamReader(sock.getInputStream()));		        
 		    }catch(Exception e)
 		    {
 		        System.out.println("Error.");
@@ -47,11 +50,17 @@ public class MultiThreadedServer implements Runnable{
 		    while(true)
 		    {
 		    	try {
-			    	Thread.sleep(100);
+			    	Thread.sleep(200);
 			    	
 			    	//SEND
 			    	
-			    	if (Minecraft.getMinecraft().isGamePaused() && Minecraft.getMinecraft().player == null) {
+			    	/* 1xx - SENDING
+			    	 * 
+			    	 * 200 OK AFTER COMMAND
+			    	 * 
+			    	 */
+			    	
+			    	if (Minecraft.getMinecraft().player == null) {
 			    		out.println(" 101 ");
 			    	}
 			    	else
@@ -75,6 +84,43 @@ public class MultiThreadedServer implements Runnable{
 			    	}
 			    	
 			    	//RECIEVE
+			    	
+			    	/*if(in.hasNextLine())
+			    	{
+				    	String message = (String) in.nextLine();
+				    	System.out.println(message);
+			    	}
+			    	*/
+			    	String inputLine;
+			    	while ((inputLine = in.readLine()) != null) {
+			    		System.out.println(inputLine);
+			    		
+			    	}
+			    	
+			    	/*String data;
+					if ((data = in.readUTF()) != null) 
+					{
+						System.out.println("\r\nMessage " + data);
+						
+						if(data.startsWith("exit"))
+						{
+							//TODO
+							//Minecraft.getMinecraft().player.
+						}
+						
+						if(data.startsWith("."))
+						{
+							Minecraft.getMinecraft().player.sendChatMessage(data);
+						}
+						
+						if(data.startsWith("IHAVENOIDEA"))
+						{
+							//NOT TODO
+						}
+					}
+					*/
+
+			    	
 		    	}
 				catch(Exception e) {}
 		    	
