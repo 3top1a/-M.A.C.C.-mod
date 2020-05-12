@@ -18,9 +18,8 @@ public class Main {
 		Connection.Start();
 
 	}
-	
-	public static void Say(String data)
-	{
+
+	public static void Say(String data) {
 		Minecraft.getMinecraft().player.sendChatMessage(data);
 	}
 
