@@ -19,10 +19,6 @@ public class Main {
 
 	}
 
-	public static void Say(String data) {
-		Minecraft.getMinecraft().player.sendChatMessage(data);
-	}
-
 	@SidedProxy(clientSide = ModSettings.CLIENT_PROXY_CLASS, serverSide = ModSettings.COMMON_PROXY_CLASS)
 	public static CommonProxy proxy;
 

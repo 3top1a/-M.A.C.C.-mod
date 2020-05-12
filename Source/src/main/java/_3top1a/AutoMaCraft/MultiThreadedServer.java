@@ -88,12 +88,11 @@ public class MultiThreadedServer implements Runnable {
 								break;
 							}
 							if (data.startsWith(".")) {
-								Main.Say(data);
+								Minecraft.getMinecraft().player.sendChatMessage(data);
 							}
 							break;
 						}
 					}
-
 				} catch (Exception e) {
 				}
 
@@ -106,8 +105,8 @@ public class MultiThreadedServer implements Runnable {
 				in.close();
 				out.close();
 				sock.close();
-				ss.close();
 			} catch (IOException ioe) {
+				System.out.println("Error closing the socket");
 			}
 		}
 
