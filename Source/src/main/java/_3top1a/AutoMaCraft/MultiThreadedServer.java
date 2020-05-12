@@ -43,56 +43,11 @@ public class MultiThreadedServer implements Runnable {
 				System.out.println("Error.");
 			}
 
-			String line;
-			String lines = "";
-
 			while (true) {
 				try {
-					// SEND
+					send(out);
 
-					/*
-					 * 1xx - SENDING
-					 * 
-					 * 200 OK AFTER COMMAND
-					 * 
-					 */
-
-					if (Minecraft.getMinecraft().player == null) {
-						out.println(" 101 ");
-					} else {
-						String x = formatter.format(Minecraft.getMinecraft().player.posX);
-						String y = formatter.format(Minecraft.getMinecraft().player.posY);
-						String z = formatter.format(Minecraft.getMinecraft().player.posZ);
-
-						String hp = formatter.format(Minecraft.getMinecraft().player.getHealth());
-						String maxhp = formatter.format(Minecraft.getMinecraft().player.getMaxHealth());
-
-						String name = Minecraft.getMinecraft().player.getName();
-
-						int dimension = Minecraft.getMinecraft().player.dimension;
-
-						int expLevel = Minecraft.getMinecraft().player.experienceLevel;
-
-						out.println(" 100 " + x + " " + y + " " + z + " " + hp + " " + maxhp + " " + name + " "
-								+ dimension + " " + expLevel + " ");
-
-					}
-
-					// RECIEVE
-
-					String data;
-					while (true) {
-						data = in.readLine();
-						if (data != null) {
-							if (data.startsWith("110")) {
-								break;
-							}
-							if (data.startsWith(".")) {
-								Minecraft.getMinecraft().player.sendChatMessage(data);
-							}
-							break;
-						}
-					}
+					recv(in);
 				} catch (Exception e) {
 				}
 
@@ -111,5 +66,56 @@ public class MultiThreadedServer implements Runnable {
 		}
 
 	}
+	
+	public void send(PrintWriter out)
+	{
+		// SEND
 
+		/*
+		 * 1xx - SENDING
+		 * 
+		 * 200 OK AFTER COMMAND
+		 * 
+		 */
+
+		if (Minecraft.getMinecraft().player == null) {
+			out.println(" 101 ");
+		} else {
+			String x = formatter.format(Minecraft.getMinecraft().player.posX);
+			String y = formatter.format(Minecraft.getMinecraft().player.posY);
+			String z = formatter.format(Minecraft.getMinecraft().player.posZ);
+
+			String hp = formatter.format(Minecraft.getMinecraft().player.getHealth());
+			String maxhp = formatter.format(Minecraft.getMinecraft().player.getMaxHealth());
+
+			String name = Minecraft.getMinecraft().player.getName();
+
+			int dimension = Minecraft.getMinecraft().player.dimension;
+
+			int expLevel = Minecraft.getMinecraft().player.experienceLevel;
+
+			out.println(" 100 " + x + " " + y + " " + z + " " + hp + " " + maxhp + " " + name + " "
+					+ dimension + " " + expLevel + " ");
+
+		}
+	}
+
+	public void recv(BufferedReader in) throws IOException
+	{
+		// RECIEVE
+
+		String data;
+		while (true) {
+			data = in.readLine();
+			if (data != null) {
+				if (data.startsWith("110")) {
+					break;
+				}
+				if (data.startsWith(".")) {
+					Minecraft.getMinecraft().player.sendChatMessage(data);
+				}
+				break;
+			}
+		}
+	}
 }
