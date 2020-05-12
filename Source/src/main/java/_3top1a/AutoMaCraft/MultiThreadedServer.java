@@ -48,8 +48,6 @@ public class MultiThreadedServer implements Runnable {
 
 			while (true) {
 				try {
-					Thread.sleep(200);
-
 					// SEND
 
 					/*
@@ -95,18 +93,6 @@ public class MultiThreadedServer implements Runnable {
 							break;
 						}
 					}
-
-					/*
-					 * String data; if ((data = in.readUTF()) != null) {
-					 * System.out.println("\r\nMessage " + data);
-					 * 
-					 * if(data.startsWith("exit")) { //NOT TODO //Minecraft.getMinecraft().player. }
-					 * 
-					 * if(data.startsWith(".")) {
-					 * Minecraft.getMinecraft().player.sendChatMessage(data); }
-					 * 
-					 * if(data.startsWith("IHAVENOIDEA")) { //NOT TODO } }
-					 */
 
 				} catch (Exception e) {
 				}
