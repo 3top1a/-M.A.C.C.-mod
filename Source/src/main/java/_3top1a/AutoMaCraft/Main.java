@@ -1,5 +1,6 @@
 package _3top1a.AutoMaCraft;
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -16,6 +17,11 @@ public class Main {
 	public static void Init(FMLPreInitializationEvent event) throws Exception {
 		Connection.Start();
 
+	}
+	
+	public static void Say(String data)
+	{
+		Minecraft.getMinecraft().player.sendChatMessage(data);
 	}
 
 	@SidedProxy(clientSide = ModSettings.CLIENT_PROXY_CLASS, serverSide = ModSettings.COMMON_PROXY_CLASS)
