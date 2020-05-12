@@ -9,5 +9,5 @@ BTC: <b>bc1qlp0lna5td0cqzaywdda0w73864aytuatpf4yxs</b><br>
 ![btc](https://github.com/3top1a/AutoMaMod/blob/master/qrcode.png)
 
 ## TODO
-* Make it thread safe
-* More forms of input
+*   Make it thread safe
+*   More forms of input
