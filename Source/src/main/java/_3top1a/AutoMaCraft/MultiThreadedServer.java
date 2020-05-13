@@ -105,16 +105,12 @@ public class MultiThreadedServer implements Runnable {
 		// RECIEVE
 
 		String data;
-		while (true) {
-			data = in.readLine();
-			if (data != null) {
-				if (data.startsWith("110")) {
-					break;
-				}
-				if (data.startsWith(".")) {
-					Minecraft.getMinecraft().player.sendChatMessage(data);
-				}
-				break;
+		data = in.readLine();
+		if (data != null) {
+			if (data.startsWith("110")) {
+			}
+			if (data.startsWith(".")) {
+				Minecraft.getMinecraft().player.sendChatMessage(data);
 			}
 		}
 	}
