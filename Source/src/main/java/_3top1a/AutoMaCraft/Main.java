@@ -12,6 +12,7 @@ public class Main {
 
 	@Instance
 	public static Main instance;
+	
 
 	@EventHandler
 	public static void Init(FMLPreInitializationEvent event) throws Exception {
