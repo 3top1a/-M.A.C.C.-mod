@@ -4,7 +4,6 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 
 import java.io.*;
 import java.net.*;
-import java.lang.Object.*;
 
 public class MultiThreadedServer implements Runnable {
 
@@ -24,25 +23,29 @@ public class MultiThreadedServer implements Runnable {
                 //Run
 
                 /* To communicate we use a bunch of prefixes
-                    104 - Is this connection still alive?
-                    105 - Im's still alive you retard
-                    106 - Send me the data
-                    107 - Here's the data you faggot
+                    pf. val | Who sends it (we are the server) | a description
+
+                    105 - S - Just testing the connection se that we can insult each other.
+                    105 - S - Sent every 2 seconds since out.checkError() can only return true if it sends data
+                    106 - C - Send me the data
+                    107 - S - (Response to 106) Here's the data you faggot
 
 
                  */
 
-                /*while (true) {
-
-                    in.readLine();
-                }*/
+                while (!out.checkError() ) {
+                    System.out.println("That fagget still didn't disconnect!");
+                    out.println("You fagget still didn't disconnect!");
+                    //in.readLine();
+                    Thread.sleep(500);
+                }
 
                 //Close
                 in.close();
                 out.close();
                 socket.close();
             }
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
