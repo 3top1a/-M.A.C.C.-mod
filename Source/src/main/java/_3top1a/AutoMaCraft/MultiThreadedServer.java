@@ -1,13 +1,10 @@
 package _3top1a.AutoMaCraft;
 
-import net.minecraft.client.Minecraft;
-import scala.tools.util.SocketServer;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.text.NumberFormat;
-import java.util.Objects;
+import java.net.*;
+import java.lang.Object.*;
 
 public class MultiThreadedServer implements Runnable {
 
@@ -18,15 +15,30 @@ public class MultiThreadedServer implements Runnable {
         try {
             server = new ServerSocket(6667);
 
-            while(true)
-            {
-                System.out.println("Waiting for the client request");
-                //creating socket and waiting for client connection
+            while (true) {
+                //Prepare
                 Socket socket = server.accept();
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                //write object to Socket
-                out.println("Hi Client ");
-                //close resources
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+                //Run
+
+                /* To communicate we use a bunch of prefixes
+                    104 - Is this connection still alive?
+                    105 - Im's still alive you retard
+                    106 - Send me the data
+                    107 - Here's the data you faggot
+
+
+                 */
+
+                /*while (true) {
+
+                    in.readLine();
+                }*/
+
+                //Close
+                in.close();
                 out.close();
                 socket.close();
             }
