@@ -1,9 +1,13 @@
 package _3top1a.AutoMaCraft;
 
-import org.apache.http.conn.socket.ConnectionSocketFactory;
-
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class MultiThreadedServer implements Runnable {
 
@@ -33,19 +37,31 @@ public class MultiThreadedServer implements Runnable {
 
                  */
 
-                while (!out.checkError() ) {
-                    System.out.println("That fagget still didn't disconnect!");
-                    out.println("You fagget still didn't disconnect!");
-                    //in.readLine();
-                    Thread.sleep(500);
+                //This is the task that sends 105 every 2 seconds
+                Runnable heartbeatRun = new Runnable() {
+                    public void run() {
+                        out.println("105");
+                    }
+                };
+                ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+                executor.scheduleAtFixedRate(heartbeatRun, 0, 2, TimeUnit.SECONDS);
+
+                while (!out.checkError()) {
+                    //Here will be the main system that responds to messages
+                    String data;
+                    data = in.readLine();
+                    if(data != null) {
+                        System.out.println(out);
+                    }
                 }
 
                 //Close
+                executor.shutdown();
                 in.close();
                 out.close();
                 socket.close();
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
