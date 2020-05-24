@@ -40,7 +40,7 @@ public class MultiThreadedServer implements Runnable {
                 //This is the task that sends 105 every 2 seconds
                 Runnable heartbeatRun = new Runnable() {
                     public void run() {
-                        out.println("105");
+                        out.println(" 105 ");
                     }
                 };
                 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
@@ -48,10 +48,10 @@ public class MultiThreadedServer implements Runnable {
 
                 while (!out.checkError()) {
                     //Here will be the main system that responds to messages
-                    String data;
+                    String data = null;
                     data = in.readLine();
                     if(data != null) {
-                        System.out.println(out);
+                        System.out.println(data);
                     }
                 }
 
