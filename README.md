@@ -1,4 +1,5 @@
 # AutoMa Craft Mod
+[![yeet](https://img.shields.io/static/v1?label=TRELLO&message=HERE&color=green&style=for-the-badge)](https://trello.com/b/KPVwtQoG/automamod)
 ![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/3top1a/AutoMaMod?style=for-the-badge)
 ![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/3top1a/AutoMaMod?style=for-the-badge)
 [![GitHub](https://img.shields.io/github/license/3top1a/AutoMaMod?color=critical&style=for-the-badge)](https://github.com/3top1a/AutoMaMod/blob/master/LICENSE)
