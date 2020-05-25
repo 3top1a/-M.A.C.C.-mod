@@ -33,7 +33,7 @@ public class MultiThreadedServer implements Runnable {
                     105 - S - Sent every 2 seconds since out.checkError() can only return true if it sends data
                     106 - C - Send me the data
                     107 - S - (Response to 106) Here's the data you faggot
-
+                    108 - S - (Response to 106) We're in the main menu retard
 
                  */
 
@@ -51,7 +51,13 @@ public class MultiThreadedServer implements Runnable {
                     String data = null;
                     data = in.readLine();
                     if(data != null) {
-                        System.out.println(data);
+                        //System.out.println(data);
+
+                        if(data.startsWith("106"))
+                        {
+                            //Send the data
+                            out.println(" 107 ");
+                        }
                     }
                 }
 
