@@ -1,20 +1,24 @@
 package _3top1a.AutoMaCraft;
 
+import net.minecraft.client.Minecraft;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.NumberFormat;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class MultiThreadedServer implements Runnable {
-
+    NumberFormat formatter = null;
     private ServerSocket server;
 
     @Override
     public void run() {
+        formatter = new java.text.DecimalFormat("#0.0");
         try {
             server = new ServerSocket(6667);
 
@@ -50,13 +54,12 @@ public class MultiThreadedServer implements Runnable {
                     //Here will be the main system that responds to messages
                     String data = null;
                     data = in.readLine();
-                    if(data != null) {
+                    if (data != null) {
                         //System.out.println(data);
 
-                        if(data.startsWith("106"))
-                        {
+                        if (data.startsWith("106")) {
                             //Send the data
-                            out.println(" 107 ");
+                            sendPlayerData(out);
                         }
                     }
                 }
@@ -69,6 +72,28 @@ public class MultiThreadedServer implements Runnable {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    void sendPlayerData(PrintWriter out) {
+        if (Minecraft.getMinecraft().player == null) {
+            out.println(" 108 ");
+        } else {
+            String x = formatter.format(Minecraft.getMinecraft().player.posX);
+            String y = formatter.format(Minecraft.getMinecraft().player.posY);
+            String z = formatter.format(Minecraft.getMinecraft().player.posZ);
+
+            String hp = formatter.format(Minecraft.getMinecraft().player.getHealth());
+            String maxHp = formatter.format(Minecraft.getMinecraft().player.getMaxHealth());
+
+            String name = Minecraft.getMinecraft().player.getName();
+
+            int dimension = Minecraft.getMinecraft().player.dimension;
+
+            int expLevel = Minecraft.getMinecraft().player.experienceLevel;
+
+            out.println(" 107 " + x + " " + y + " " + z + " " + hp + " " + maxHp + " " + name + " "
+                    + dimension + " " + expLevel + " ");
         }
     }
 }
