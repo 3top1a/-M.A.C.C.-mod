@@ -38,6 +38,8 @@ public class MultiThreadedServer implements Runnable {
                     106 - C - Send me the data
                     107 - S - (Response to 106) Here's the data you faggot
                     108 - S - (Response to 106) We're in the main menu retard
+                    109 - S - We just executed the command with {x} prefix (110, etc..)
+                    110 - C - Send this in the local chat you pillock
 
                  */
 
@@ -55,11 +57,30 @@ public class MultiThreadedServer implements Runnable {
                     String data = null;
                     data = in.readLine();
                     if (data != null) {
-                        //System.out.println(data);
+                        //Remove tailing whitespaces
+                        String regex = "^\\s+";
+                        data = data.replaceAll(regex, "");
 
+                        //Parse the data
                         if (data.startsWith("106")) {
                             //Send the data
                             sendPlayerData(out);
+                        }
+                        else if (data.startsWith("110"))
+                        {
+                            //Remove the 109 part
+                            String msg = data.substring(4);
+                            System.out.println(msg);
+
+                            //Send this in the local chat
+                            Minecraft.getMinecraft().player.sendChatMessage(msg);
+
+                            //Send 109
+                            out.println(" 110 109");
+                        }
+                        else
+                        {
+                            System.out.println("Some other data: " + data);
                         }
                     }
                 }
@@ -71,7 +92,11 @@ public class MultiThreadedServer implements Runnable {
                 socket.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                Utils.PrintError(e);
+            } catch (Exception exception) {
+                e.printStackTrace();
+            }
         }
     }
 
