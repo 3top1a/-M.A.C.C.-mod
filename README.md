@@ -11,7 +11,3 @@ The AutoMaController is what sends commands to an AutoMaMod agent, and receives 
 All Donations are highly appreciated.<br>
 BTC: <b>bc1qlp0lna5td0cqzaywdda0w73864aytuatpf4yxs</b><br>
 ![btc](https://github.com/3top1a/AutoMaMod/blob/master/qrcode.png)
-
-## TODO
-*   Make it thread safe
-*   More forms of input
